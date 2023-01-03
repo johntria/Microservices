@@ -1,21 +1,39 @@
 services:
   #  Postgres
-  postgres:
-    container_name: postgres
+  postgres-fraud:
+    container_name: postgres-fraud-application
+    image: postgres
+    command: [ "postgres", "-c", "log_statement=all", "-c", "log_destination=stderr" ]
+    environment:
+      POSTGRES_DB: fraud
+      POSTGRES_USER: johncode
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres/fraud
+    volumes:
+      - postgresFraud:/data/postgres/fraud
+    ports:
+      - "5532:5432"
+    networks:
+      - postgresFraud
+  postgres-customer:
+    container_name: postgres-customer-application
     image: postgres
     environment:
       POSTGRES_DB: customer
       POSTGRES_USER: johncode
       POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
+      PGDATA: /data/postgres/customer
     volumes:
-      - postgres:/data/postgres
+      - postgresCustomer:/data/postgres/customer
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - postgresCustomer
 networks:
-  postgres:
+  postgresCustomer:
+    driver: bridge
+  postgresFraud:
     driver: bridge
 volumes:
-  postgres:
+  postgresCustomer:
+  postgresFraud:

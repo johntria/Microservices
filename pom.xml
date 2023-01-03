@@ -13,6 +13,7 @@
     <modules>
         <module>customer</module>
         <module>johnservices-it</module>
+        <module>fraud</module>
     </modules>
 
     <properties>
@@ -22,7 +23,6 @@
         <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
         <spring.boot.dependecies.version>2.5.7</spring.boot.dependecies.version>
         <maven.test.version>3.0.0-M7</maven.test.version>
-        <skip.test>true</skip.test>
     </properties>
 
     <dependencyManagement>
