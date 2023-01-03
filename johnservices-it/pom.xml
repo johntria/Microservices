@@ -22,6 +22,11 @@
             <artifactId>customer</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.johncode</groupId>
+            <artifactId>fraud</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
