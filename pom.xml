@@ -20,8 +20,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
-        <spring.boot.dependecies.version>2.5.7</spring.boot.dependecies.version>
+        <spring.boot.maven.plugin.version>3.0.1</spring.boot.maven.plugin.version>
+        <spring.boot.dependecies.version>3.0.1</spring.boot.dependecies.version>
         <maven.test.version>3.0.0-M7</maven.test.version>
     </properties>
 

@@ -19,16 +19,16 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
 		//todo:check if mail is valid
 		//todo:check if email not taken
 		//todo:check if fraudster
-		customerRepository.saveAndFlush(customer);
+		Customer savedCustomer = customerRepository.save(customer);
 		FraudCheckResponse forObject = restTemplate.getForObject(
 				"http://localhost:8081/api/v1/fraud-check/{customerId}",
 				FraudCheckResponse.class,
-				customer.getId()
+				savedCustomer.getId()
 		);
 		if(forObject.isFraudster()){
 			throw new IllegalStateException("You are Fraudster!");
 		}
 		//todo:send notification;
-		return customer;
+		return savedCustomer;
 	}
 }
