@@ -21,11 +21,11 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
 		//todo:check if fraudster
 		Customer savedCustomer = customerRepository.save(customer);
 		FraudCheckResponse forObject = restTemplate.getForObject(
-				"http://localhost:8081/api/v1/fraud-check/{customerId}",
+				"http://FRAUD/api/v1/fraud-check/{customerId}",
 				FraudCheckResponse.class,
 				savedCustomer.getId()
 		);
-		if(forObject.isFraudster()){
+		if (Boolean.TRUE.equals(forObject.isFraudster())) {
 			throw new IllegalStateException("You are Fraudster!");
 		}
 		//todo:send notification;
