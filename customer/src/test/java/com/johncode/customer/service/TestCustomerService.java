@@ -15,8 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
 
+import com.johncode.clients.fraud.FraudCheckResponse;
+import com.johncode.clients.fraud.FraudClient;
 import com.johncode.customer.dto.CustomerRegistrationRequest;
-import com.johncode.customer.dto.FraudCheckResponse;
 import com.johncode.customer.model.Customer;
 import com.johncode.customer.repository.CustomerRepository;
 
@@ -28,7 +29,8 @@ class TestCustomerService {
 	@Mock
 	CustomerRepository customerRepository;
 	@Mock
-	RestTemplate restTemplate;
+	FraudClient fraudClient;
+
 	@InjectMocks
 	CustomerService customerService;
 
@@ -39,8 +41,7 @@ class TestCustomerService {
 		Customer expectedCustomer = new Customer(1, "firstname", "lastname", "mymail@google.gr");
 		//when
 		when(customerRepository.save(any())).thenReturn(expectedCustomer);
-		when(restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
-				FraudCheckResponse.class, 1)).thenReturn(new FraudCheckResponse(Boolean.FALSE));
+		when(fraudClient.isFraudster(any())).thenReturn(new FraudCheckResponse(Boolean.FALSE));
 		Customer customer = customerService.registerCustomer(request);
 		//then
 		assertEquals(customer.getId(), expectedCustomer.getId());
@@ -53,14 +54,12 @@ class TestCustomerService {
 
 	@Test
 	void registerCustomer_expected_exception() {
-
 		//given
 		CustomerRegistrationRequest request = new CustomerRegistrationRequest("firstname", "name", "mymail@google.gr");
 		Customer expectedCustomer = new Customer(1, "firstname", "lastname", "mymail@google.gr");
 		//when
 		when(customerRepository.save(any())).thenReturn(expectedCustomer);
-		when(restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
-				FraudCheckResponse.class, 1)).thenReturn(new FraudCheckResponse(Boolean.TRUE));
+		when(fraudClient.isFraudster(any())).thenReturn(new FraudCheckResponse(Boolean.TRUE));
 		Customer customer =null;
 		Exception expectedException = assertThrows(IllegalStateException.class, () -> {
 			 customerService.registerCustomer(request);
@@ -68,8 +67,7 @@ class TestCustomerService {
 		});
 		//verify
 		verify(customerRepository, times(1)).save(any());
-		verify(restTemplate, times(1)).getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
-				FraudCheckResponse.class, 1);
+		verify(fraudClient, times(1)).isFraudster(any());
 		assertEquals("You are Fraudster!",expectedException.getMessage());
 	}
 }
