@@ -1,4 +1,4 @@
-package com.johncode.fraud.dto;
+package com.johncode.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }
