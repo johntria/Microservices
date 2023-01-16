@@ -33,6 +33,12 @@
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.johncode</groupId>
+            <artifactId>eureka-server</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
     </dependencies>
     <profiles>
         <profile>
