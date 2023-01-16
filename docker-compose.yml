@@ -29,11 +29,28 @@ services:
       - "5432:5432"
     networks:
       - postgresCustomer
+  postgres-notification:
+    container_name: postgres-notification-application
+    image: postgres
+    environment:
+      POSTGRES_DB: notification
+      POSTGRES_USER: johncode
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres/notification
+    volumes:
+      - postgresNotification:/data/postgres/notification
+    ports:
+      - "5632:5432"
+    networks:
+      - postgresNotification
 networks:
   postgresCustomer:
     driver: bridge
   postgresFraud:
     driver: bridge
+  postgresNotification:
+    driver: bridge
 volumes:
   postgresCustomer:
   postgresFraud:
+  postgresNotification:
